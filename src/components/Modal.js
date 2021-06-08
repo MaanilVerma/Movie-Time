@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { PRIMARY_INFO_FOR_MOVIE_API, MOVIE_ID } from '../api/movieDB';
+import { PRIMARY_INFO_FOR_MOVIE_API, MOVIE_ID } from '../API/movieDataBase';
 
 export const Modal = (props) => {
 
-    console.log('Hi from Modal');
-
-    const { movie, onClickModalContainer } = props;
+    const {movie, onClickModalContainer} = props;
+    
     const [moreMovieInfo, setMoreMovieInfo] = useState();
 
 
     let url = PRIMARY_INFO_FOR_MOVIE_API;
+    // console.log(url);
     let finalURL = url.replace(MOVIE_ID, movie.id);
+    // console.log(finalURL);
 
     useEffect(() => {
 
@@ -37,9 +38,7 @@ export const Modal = (props) => {
     return (
         <div className="movie_detail_container" onClick={onClickModalContainer}>
             <img className="cancel_image_button" src='close.png' alt='close button' />
-            {/* <section className="movie_cover">
-                <img className="movie_cover_image" src={IMAGES_API + movie.backdrop_path} alt={movie.title + ' CoverImage'} />
-            </section> */}
+    
             <section className="movie_details">
                 <img className="movie_poster" src={movie.finalPoster} alt={movie.title + ' MoviePosterImage'} />
                 <div className="movie_information">
@@ -51,21 +50,22 @@ export const Modal = (props) => {
                             {
                                 moreMovieInfo && moreMovieInfo.genres.map(genre => {
                                     return (
-                                        <li key={genre.id}>{genre.name}</li>
+                                        <li key={genre.id} > {genre.name}</li>
                                     )
                                 })
                             }
                         </ul>
-                        <a href={moreMovieInfo.homepage}>Watch Trailer here </a>
+                        <a href={moreMovieInfo.homepage}>Watch Trailer here </a>
                         <h4>Release Date: {movie.release_date}</h4>
                     </>
                     }
                     <h4>Avg Rating: {movie.vote_count}</h4>
                     <h4>Popularity: {movie.popularity}</h4>
                     <h4>Original Language: {movie.original_language}</h4>
-                    <p> <strong>Summary</strong> : {movie.overview} </p>
+                    <p className = "summary"> <strong>Summary</strong> : {movie.overview} </p>
                 </div>
             </section>
         </div>
     )
 }
+

@@ -1,74 +1,91 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState} from 'react';
 import Movie from './components/Movie';
+import {TRENDING_API, SEARCH_API} from "./API/movieDataBase";
 import { Modal } from './components/Modal';
-import { TRENDING_API, SEARCH_API } from './api/movieDB';
+
 
 function App() {
 
-  const [movies, setMovies] = useState([]);
-  const [searchText, setSearchText] = useState('');
+  const [ movies, setMovies] = useState( [] );
+  const [ searchTerm, setSearchTerm] = useState(' ');
+  const [movieClicked, setMovieClicked] = useState();
 
-  const [movieClicked, setMovieClicked] = useState('');
+  useEffect(() =>{
+    fetchMoviesFromApi(TRENDING_API);
+  },[]);
 
-  useEffect(() => {
-    getMovies(TRENDING_API);
-  }, []);
-
-  const getMovies = (API) => {
-
+  const fetchMoviesFromApi = (API) =>{
     fetch(API)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
         setMovies(data.results);
       })
-  }
 
-  const handleSearchButton = async (e) => {
+  } 
+
+  const handleOnSubmit = (e) =>{
     e.preventDefault();
 
-    if (searchText && searchText !== '') {
-      await getMovies(SEARCH_API + searchText);
-      await setSearchText('');
+    if(searchTerm && searchTerm !== ' '){
+       fetchMoviesFromApi(SEARCH_API + searchTerm);
+       setSearchTerm('');
     }
-    else {
-      getMovies(TRENDING_API);
+    else{
+      fetchMoviesFromApi(TRENDING_API);
     }
 
+  }
+
+  const handleOnChange = (e) => {
+    setSearchTerm(e.target.value);
   }
 
   const handleOnClickMovie = (movie, poster) => {
-    //movie.prototype.finalPoster = poster;
+    
     const movieWithPosterSrc = { ...movie, finalPoster: poster };
     setMovieClicked(movieWithPosterSrc);
   }
 
   const onClickModalContainer = () => {
-    console.log('Hi found modal container outside if');
+   
     setMovieClicked(null);
   }
 
+ 
+
   return (
-    <div className="App">
+    <div>
       <header>
-        <form onSubmit={handleSearchButton}>
-          <div onClick={handleSearchButton}>
-            <h1 className="brandName" >Prime<span className="brandName2">TIME</span></h1>
+
+        <form onSubmit = {handleOnSubmit}>
+          <div>
+            <h1 className="brandName" >Movie<span className="brandName2">TIME</span></h1>
           </div>
-          <input
-            className="search"
-            type="search"
-            placeholder="Search..."
-            onChange={(e) => setSearchText(e.target.value)}
-            value={searchText} />
+          
+          <input 
+            className = "search-box"
+            type = "search"
+            placeholder = "Search..." 
+            value = {searchTerm}
+            onChange = {handleOnChange} />
+
         </form>
+        
       </header>
-      <div className="movie-container">
-        {movies.length > 0 && movies.map(movie => <Movie key={movie.id} movieData={movie} handleOnMovieClick={handleOnClickMovie} />)}
+
+      <div className = "movie-container">
+        {movies.length > 0 && movies.map(movie => (
+        <Movie key = {movie.id} movieData = {movie} handleOnMovieClick={handleOnClickMovie} />  
+        ))}
+
       </div>
+
       {movieClicked && <div className="modal_container">
         <Modal movie={movieClicked} onClickModalContainer={onClickModalContainer} />
       </div>}
-    </div>
+
+    </div> 
   );
 }
 
