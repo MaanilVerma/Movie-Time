@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import Movie from './components/Movie';
-import {TRENDING_API, SEARCH_API} from "./API/movieDataBase";
+import {TRENDING_API, SEARCH_API} from "./api/movieDataBase";
 import { Modal } from './components/Modal';
 
 

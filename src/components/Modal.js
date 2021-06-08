@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PRIMARY_INFO_FOR_MOVIE_API, MOVIE_ID } from '../API/movieDataBase';
+import { PRIMARY_INFO_FOR_MOVIE_API, MOVIE_ID } from '../api/movieDataBase';
 
 export const Modal = (props) => {
 

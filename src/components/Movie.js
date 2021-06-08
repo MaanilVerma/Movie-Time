@@ -1,5 +1,5 @@
 import React from 'react';
-import {IMAGES_API} from "../API/movieDataBase"
+import {IMAGES_API} from "../api/movieDataBase"
 
 
 const Movie = (props) =>{
