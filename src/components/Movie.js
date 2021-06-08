@@ -2,8 +2,6 @@ import React from 'react';
 import {IMAGES_API} from "../API/movieDataBase"
 
 
-
-
 const Movie = (props) =>{
 
     const {movieData, handleOnMovieClick} = props;
